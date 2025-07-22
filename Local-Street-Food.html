@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Local Street Food</title>
+</head>
+<body style="margin: 0; font-family: 'Segoe UI', sans-serif; background: #fffdf7; color: #333;">
+
+  <!-- Header -->
+  <header style="background: #ff6f00; color: white; padding: 30px 20px; text-align: center;">
+    <h1 style="margin: 0; font-size: 2.8rem;">🌮 Local Street Food</h1>
+    <p style="font-size: 1.2rem;">Taste the streets. Discover the culture.</p>
+  </header>
+
+  <!-- Hero Section -->
+  <section style="background-image: url('https://images.unsplash.com/photo-1628482300134-7bfc03b1372e'); background-size: cover; background-position: center; height: 300px; display: flex; align-items: center; justify-content: center;">
+    <h2 style="color: white; font-size: 2.5rem; text-shadow: 2px 2px 4px #000; background: rgba(0,0,0,0.4); padding: 10px 20px; border-radius: 10px;">Street Flavors Around You</h2>
+  </section>
+
+  <!-- Popular Items -->
+  <section style="padding: 50px 20px; text-align: center;">
+    <h2 style="font-size: 2rem; color: #d84315;">🍢 Top Local Street Foods</h2>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px;">
+
+      <!-- Item 1 -->
+      <div style="width: 250px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); overflow: hidden;">
+        <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0" style="width: 100%; height: 160px; object-fit: cover;" alt="Pani Puri">
+        <div style="padding: 15px;">
+          <h3>Pani Puri</h3>
+          <p>Crispy puris filled with tangy flavored water and spices.</p>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div style="width: 250px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); overflow: hidden;">
+        <img src="https://feelgoodfoodie.net/wp-content/uploads/2019/07/Mexican-Street-Tacos-TIMG.jpg" style="width: 100%; height: 160px; object-fit: cover;" alt="Tacos">
+        <div style="padding: 15px;">
+          <h3>Mexican Tacos</h3>
+          <p>Stuffed corn tortillas with meats, cheese, and salsas.</p>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div style="width: 250px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); overflow: hidden;">
+        <img src="https://img.freepik.com/premium-photo/schezwan-noodles-vegetable-hakka-noodles-chow-mein-is-popular-indo-chinese-recipes-served-bowl-plate-with-wooden-chopsticks_466689-46260.jpg" style="width: 100%; height: 160px; object-fit: cover;" alt="Chow Mein">
+        <div style="padding: 15px;">
+          <h3>Street Chow Mein</h3>
+          <p>Stir-fried noodles with veggies and street-style sauces.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+    <!-- Make a Reservation -->
+  <section style="background: #fefefe; padding: 50px 20px;">
+    <div style="max-width: 500px; margin: auto;">
+      <h2 style="text-align: center; font-size: 2rem; margin-bottom: 20px;">📅 Reserve a Table</h2>
+      <form onsubmit="return showConfirm(event)" style="display: flex; flex-direction: column; gap: 15px;">
+        <input type="text" placeholder="Your Name" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+        <input type="email" placeholder="Email Address" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+        <input type="tel" placeholder="Phone Number" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+        <input type="date" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+        <input type="time" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+        <button style="background: #c0392b; color: white; border: none; padding: 12px; font-size: 1rem; border-radius: 6px; cursor: pointer;">Book Table</button>
+      </form>
+      <div id="confirmMsg" style="display: none; margin-top: 20px; background: #dff0d8; padding: 15px; border-radius: 6px; color: #2e7d32; text-align: center;">
+        ✅ Reservation received! We'll contact you soon.
+      </div>
+    </div>
+  </section>
+
+  <!-- Review Section -->
+  <section style="padding: 50px 20px; background: #fbe9e7;">
+    <div style="max-width: 600px; margin: auto;">
+      <h2 style="text-align: center; color: #bf360c;">🗣️ Share Your Experience</h2>
+      <form onsubmit="return showThanks(event)" style="display: flex; flex-direction: column; gap: 15px; margin-top: 25px;">
+        <input type="text" placeholder="Your Name" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+        <textarea placeholder="Your Review" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc; height: 100px;"></textarea>
+        <button style="padding: 12px; background: #ff6f00; color: white; border: none; border-radius: 6px; font-size: 1rem; cursor: pointer;">Submit Review</button>
+      </form>
+      <div id="thankYou" style="display: none; background: #c8e6c9; padding: 15px; border-radius: 6px; margin-top: 20px; color: #2e7d32; text-align: center;">
+        ✅ Thank you for sharing your delicious experience!
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background: #ff6f00; color: white; text-align: center; padding: 20px;">
+    <p style="margin: 0;">© 2025 Local Street Food | Eat Local, Eat Fresh</p>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    function showThanks(event) {
+      event.preventDefault();
+      document.getElementById("thankYou").style.display = "block";
+      event.target.reset();
+    }
+  </script>
+        <!-- 🔙 Quick Navigation Section -->
+<section style="background: #f8f9fa; padding: 40px 20px; text-align: center; font-family: 'Segoe UI', sans-serif;">
+  <h2 style="margin-bottom: 20px; color: #2c3e50;">🔗 Quick Links</h2>
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+    
+    <a href="index.html" style="background: #3498db; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🏠 Home
+    </a>
+
+    <a href="Destinations.html" style="background: #27ae60; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🗺️ Destinations
+    </a>
+
+    <a href="Packages.html" style="background: #e67e22; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🎁 Packages
+    </a>
+
+    <a href="Contact.html" style="background: #8e44ad; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      ✉️ Contact
+    </a>
+
+  </div>
+</section>
+
+
+  <footer style="text-align: center; padding: 20px; background: #2c3e50; color: white;">
+    © 2025 WanderGo Travel. All rights reserved.
+  </footer>
+
+
+</body>
+</html>

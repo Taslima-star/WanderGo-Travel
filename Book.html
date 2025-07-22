@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WanderGo Travel Booking</title>
+  <!-- jsPDF CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body style="margin: 0; font-family: 'Segoe UI', sans-serif; background: #f0f9ff; color: #333;">
+
+  <!-- Header -->
+  <header style="background: #0d6efd; color: white; padding: 30px 20px; text-align: center;">
+    <h1 style="margin: 0; font-size: 2.5rem;">✈️ WanderGo Travel</h1>
+    <p style="font-size: 1.1rem;">Plan your perfect trip with ease!</p>
+  </header>
+
+  <!-- Booking Section -->
+  <section style="padding: 50px 20px;">
+    <div style="max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);">
+      
+      <h2 style="text-align: center; margin-bottom: 25px; color: #0d6efd;">🧳 Book Your Trip</h2>
+      
+      <form id="bookingForm" onsubmit="return submitBooking(event)" style="display: flex; flex-direction: column; gap: 15px;">
+        <input type="text" id="name" placeholder="Full Name" required style="padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem;">
+        <input type="email" id="email" placeholder="Email Address" required style="padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem;">
+        <input type="tel" id="phone" placeholder="Phone Number" required style="padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem;">
+
+        <select id="destination" required style="padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem;">
+          <option value="">-- Select Destination --</option>
+          <option value="Goa|150">Goa - $150/day</option>
+          <option value="Maldives|300">Maldives - $300/day</option>
+          <option value="Kashmir|180">Kashmir - $180/day</option>
+          <option value="Dubai|250">Dubai - $250/day</option>
+          <option value="Paris|400">Paris- $400/day</option>
+          <option value="Bali|500">Bali - $500/day</option>
+          <option value="New york|600">New york - $600/day</option>
+        </select>
+
+        <div style="display: flex; gap: 10px;">
+          <div style="flex: 1;">
+            <label style="font-weight: 500; color: #0d6efd;">Start Date</label>
+            <input type="date" id="startDate" required style="padding: 10px; width: 100%; border-radius: 8px; border: 1px solid #ccc;">
+          </div>
+          <div style="flex: 1;">
+            <label style="font-weight: 500; color: #0d6efd;">End Date</label>
+            <input type="date" id="endDate" required style="padding: 10px; width: 100%; border-radius: 8px; border: 1px solid #ccc;">
+          </div>
+        </div>
+
+        <div id="priceSummary" style="margin-top: 10px; color: #0d47a1; font-weight: bold; font-size: 1.1rem;"></div>
+
+        <button type="submit" style="padding: 14px; font-size: 1rem; background: #0d6efd; color: white; border: none; border-radius: 8px; cursor: pointer;">
+          ✅ Confirm Booking
+        </button>
+      </form>
+
+      <div id="successMessage" style="display: none; margin-top: 20px; background: #d4edda; color: #155724; padding: 15px; border-radius: 8px; border: 1px solid #c3e6cb; text-align: center;">
+        🎉 Your trip has been booked successfully with WanderGo Travel!<br>
+        📄 Your invoice will download shortly.
+      </div>
+    </div>
+  </section>
+
+  <!-- JavaScript -->
+  <script>
+    function calculateDays(start, end) {
+      const s = new Date(start);
+      const e = new Date(end);
+      const diff = e - s;
+      return Math.max(Math.ceil(diff / (1000 * 60 * 60 * 24)), 0);
+    }
+
+    function updatePrice() {
+      const destVal = document.getElementById("destination").value;
+      const start = document.getElementById("startDate").value;
+      const end = document.getElementById("endDate").value;
+      const summary = document.getElementById("priceSummary");
+
+      if (destVal && start && end) {
+        const [place, rate] = destVal.split("|");
+        const days = calculateDays(start, end);
+        if (days > 0) {
+          const total = days * parseFloat(rate);
+          summary.textContent = `💰 ${place} for ${days} day(s) = $${total}`;
+        } else {
+          summary.textContent = "";
+        }
+      } else {
+        summary.textContent = "";
+      }
+    }
+
+    document.getElementById("destination").addEventListener("change", updatePrice);
+    document.getElementById("startDate").addEventListener("change", updatePrice);
+    document.getElementById("endDate").addEventListener("change", updatePrice);
+
+    function submitBooking(event) {
+      event.preventDefault();
+
+      // Get values
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const phone = document.getElementById("phone").value;
+      const destVal = document.getElementById("destination").value;
+      const [destination, rate] = destVal.split("|");
+      const start = document.getElementById("startDate").value;
+      const end = document.getElementById("endDate").value;
+      const days = calculateDays(start, end);
+      const total = days * parseFloat(rate);
+
+      // Reset form
+      document.getElementById("bookingForm").reset();
+      document.getElementById("priceSummary").textContent = "";
+      document.getElementById("successMessage").style.display = "block";
+
+      // Generate invoice
+      setTimeout(() => generatePDF(name, email, phone, destination, start, end, total), 500);
+      return false;
+    }
+
+    async function generatePDF(name, email, phone, destination, start, end, total) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.setFontSize(18);
+      doc.text("WanderGo Travel - Booking Invoice", 20, 20);
+
+      doc.setFontSize(12);
+      doc.text(`Name: ${name}`, 20, 40);
+      doc.text(`Email: ${email}`, 20, 50);
+      doc.text(`Phone: ${phone}`, 20, 60);
+      doc.text(`Destination: ${destination}`, 20, 70);
+      doc.text(`Travel Dates: ${start} to ${end}`, 20, 80);
+      doc.text(`Total Days: ${calculateDays(start, end)} day(s)`, 20, 90);
+      doc.text(`Total Price: $${total}`, 20, 100);
+
+      doc.setFontSize(10);
+      doc.setTextColor(120);
+      doc.text("Thank you for booking with WanderGo Travel!", 20, 120);
+
+      doc.save(`WanderGo_Invoice_${Date.now()}.pdf`);
+    }
+  </script>
+        <!-- 🔙 Quick Navigation Section -->
+<section style="background: #f8f9fa; padding: 40px 20px; text-align: center; font-family: 'Segoe UI', sans-serif;">
+  <h2 style="margin-bottom: 20px; color: #2c3e50;">🔗 Quick Links</h2>
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+    
+    <a href="index.html" style="background: #3498db; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🏠 Home
+    </a>
+
+    <a href="Destinations.html" style="background: #27ae60; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🗺️ Destinations
+    </a>
+
+    <a href="Packages.html" style="background: #e67e22; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🎁 Packages
+    </a>
+
+    <a href="Contact.html" style="background: #8e44ad; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      ✉️ Contact
+    </a>
+
+  </div>
+</section>
+
+
+  <footer style="text-align: center; padding: 20px; background: #2c3e50; color: white;">
+    © 2025 WanderGo Travel. All rights reserved.
+  </footer>
+
+
+
+</body>
+</html>

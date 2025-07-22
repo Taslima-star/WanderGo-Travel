@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Italian Delights</title>
+</head>
+<body style="margin: 0; font-family: 'Segoe UI', sans-serif; background: #fffaf0; color: #333;">
+
+  <!-- Header -->
+  <header style="background: #b71c1c; color: white; padding: 20px; text-align: center;">
+    <h1 style="margin: 0; font-size: 2.8rem;">🍝 Italian Delights</h1>
+    <p style="font-size: 1.2rem;">Authentic Taste of Italy</p>
+  </header>
+
+  <!-- Hero -->
+  <section style="background-image: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092'); background-size: cover; background-position: center; height: 300px; display: flex; align-items: center; justify-content: center; color: white; text-shadow: 1px 1px 4px black;">
+    <h2 style="font-size: 2.5rem; background: rgba(0,0,0,0.4); padding: 10px 20px; border-radius: 10px;">Benvenuti to Italian Delights</h2>
+  </section>
+
+  <!-- Featured Dishes -->
+  <section style="padding: 50px 20px; text-align: center;">
+    <h2 style="font-size: 2rem; margin-bottom: 20px;">🍕 Our Signature Dishes</h2>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
+
+      <!-- Dish 1 -->
+      <div style="width: 250px; background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden;">
+        <img src="https://cookingitalians.com/wp-content/uploads/2024/11/Margherita-Pizza.jpg" alt="Pizza Margherita" style="width: 100%; height: 160px; object-fit: cover;">
+        <div style="padding: 15px;">
+          <h3 style="margin: 0;">Pizza Margherita</h3>
+          <p>Fresh basil, mozzarella & tomato.</p>
+        </div>
+      </div>
+
+      <!-- Dish 2 -->
+      <div style="width: 250px; background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden;">
+        <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd" alt="Spaghetti Carbonara" style="width: 100%; height: 160px; object-fit: cover;">
+        <div style="padding: 15px;">
+          <h3 style="margin: 0;">Spaghetti Carbonara</h3>
+          <p>Egg, parmesan, pancetta & pepper.</p>
+        </div>
+      </div>
+
+      <!-- Dish 3 -->
+      <div style="width: 250px; background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden;">
+        <img src="https://assets.bonappetit.com/photos/5cad19a64692d487058bb33e/1:1/w_2560%2Cc_limit/old-school-tiramisu.jpg" alt="Tiramisu" style="width: 100%; height: 160px; object-fit: cover;">
+        <div style="padding: 15px;">
+          <h3 style="margin: 0;">Tiramisu</h3>
+          <p>Classic coffee-flavored dessert.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Make a Reservation -->
+  <section style="background: #fefefe; padding: 50px 20px;">
+    <div style="max-width: 500px; margin: auto;">
+      <h2 style="text-align: center; font-size: 2rem; margin-bottom: 20px;">📅 Reserve a Table</h2>
+      <form onsubmit="return showConfirm(event)" style="display: flex; flex-direction: column; gap: 15px;">
+        <input type="text" placeholder="Your Name" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+        <input type="email" placeholder="Email Address" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+        <input type="tel" placeholder="Phone Number" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+        <input type="date" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+        <input type="time" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+        <button style="background: #c0392b; color: white; border: none; padding: 12px; font-size: 1rem; border-radius: 6px; cursor: pointer;">Book Table</button>
+      </form>
+      <div id="confirmMsg" style="display: none; margin-top: 20px; background: #dff0d8; padding: 15px; border-radius: 6px; color: #2e7d32; text-align: center;">
+        ✅ Reservation received! We'll contact you soon.
+      </div>
+    </div>
+  </section>
+    <!-- Review Section -->
+  <section style="padding: 50px 20px; background: #fbe9e7;">
+    <div style="max-width: 600px; margin: auto;">
+      <h2 style="text-align: center; color: #bf360c;">🗣️ Share Your Experience</h2>
+      <form onsubmit="return showThanks(event)" style="display: flex; flex-direction: column; gap: 15px; margin-top: 25px;">
+        <input type="text" placeholder="Your Name" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+        <textarea placeholder="Your Review" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc; height: 100px;"></textarea>
+        <button style="padding: 12px; background: #ff6f00; color: white; border: none; border-radius: 6px; font-size: 1rem; cursor: pointer;">Submit Review</button>
+      </form>
+      <div id="thankYou" style="display: none; background: #c8e6c9; padding: 15px; border-radius: 6px; margin-top: 20px; color: #2e7d32; text-align: center;">
+        ✅ Thank you for sharing your delicious experience!
+      </div>
+    </div>
+  </section>
+ <!-- JavaScript -->
+  <script>
+    function showConfirm(event) {
+      event.preventDefault();
+      document.getElementById("confirmMsg").style.display = "block";
+      event.target.reset();
+      return false;
+    }
+  </script>
+        <!-- 🔙 Quick Navigation Section -->
+<section style="background: #f8f9fa; padding: 40px 20px; text-align: center; font-family: 'Segoe UI', sans-serif;">
+  <h2 style="margin-bottom: 20px; color: #2c3e50;">🔗 Quick Links</h2>
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+    
+    <a href="index.html" style="background: #3498db; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🏠 Home
+    </a>
+
+    <a href="Destinations.html" style="background: #27ae60; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🗺️ Destinations
+    </a>
+
+    <a href="Packages.html" style="background: #e67e22; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🎁 Packages
+    </a>
+
+    <a href="Contact.html" style="background: #8e44ad; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      ✉️ Contact
+    </a>
+
+  </div>
+</section>
+
+
+  <footer style="text-align: center; padding: 20px; background: #2c3e50; color: white;">
+    © 2025 WanderGo Travel. All rights reserved.
+  </footer>
+
+</body>
+</html>

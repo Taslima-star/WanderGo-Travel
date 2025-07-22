@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WanderGo - Travel Packages</title>
+</head>
+<body style="margin: 0; font-family: 'Segoe UI', sans-serif; background: #f8f9fa; color: #333;">
+
+  <!-- Header -->
+  <header style="background: #198754; color: white; padding: 40px 20px; text-align: center;">
+    <h1 style="margin: 0; font-size: 2.8rem;">🧳 WanderGo Travel Packages</h1>
+    <p style="font-size: 1.1rem;">Find and filter your perfect trip below</p>
+  </header>
+
+  <!-- Filters & Search -->
+  <section style="padding: 20px 20px; max-width: 1200px; margin: auto;">
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-bottom: 30px;">
+      <select id="filterLocation" onchange="filterPackages()" style="padding: 10px; border-radius: 6px;">
+        <option value="">All Locations</option>
+        <option value="Goa">Goa</option>
+        <option value="Kashmir">Kashmir</option>
+        <option value="Maldives">Maldives</option>
+        <option value="Bali">Bali</option>
+        <option value="New York">New York</option>
+        <option value="Dubai">Dubai</option>
+        <option value="Paris">Paris</option>
+      </select>
+      <select id="filterBudget" onchange="filterPackages()" style="padding: 10px; border-radius: 6px;">
+        <option value="">All Budgets</option>
+        <option value="20000">Under ₹20,000</option>
+        <option value="50000">Under ₹50,000</option>
+        <option value="100000">Under ₹1,00,000</option>
+      </select>
+      <select id="filterDuration" onchange="filterPackages()" style="padding: 10px; border-radius: 6px;">
+        <option value="">All Durations</option>
+        <option value="4">4 Days</option>
+        <option value="6">6 Days</option>
+        <option value="8">8 Days</option>
+      </select>
+      <input type="text" id="searchInput" onkeyup="filterPackages()" placeholder="Search destination..." style="padding: 10px; border-radius: 6px; width: 200px;">
+    </div>
+  </section>
+
+  <!-- Packages Grid -->
+  <section style="padding: 20px 20px; max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;" id="packageContainer">
+
+    <!-- Packages will be injected by JavaScript -->
+
+  </section>
+
+  
+  <script>
+    const packages = [
+      { name: "Sun & Sand Goa", location: "Goa", days: 4, price: 19999, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUeMJQsUps8DKgekyyuq6cFED3SJDUOIljxLefHnwqeGJaeY7gGZ-wWWbqMI5mUhxrzqI&usqp=CAU", rating: 4.3 },
+      { name: "Kashmir Valley Delight", location: "Kashmir", days: 6, price: 24999, image: "https://ttw.wlimg.com/package-images/photo-big/dir_15/424442/209373.jpg", rating: 4.6 },
+      { name: "Maldives Luxury Escape", location: "Maldives", days: 5, price: 54999, image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb", rating: 4.8 },
+      { name: "Bali Island Adventure", location: "Bali", days: 7, price: 42999, image: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1", rating: 4.5 },
+      { name: "New York Explorer", location: "New York", days: 6, price: 89000, image: "https://i2.wp.com/clubthrifty.com/wp-content/uploads/2018/05/NYC-Explorer-Pass_Featured-Image.jpg", rating: 4.7 },
+      { name: "Dubai City & Desert", location: "Dubai", days: 5, price: 39000, image: "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/09/ea/56/90.jpg", rating: 4.2 },
+      { name: "Paris & Rome Romance", location: "Paris", days: 8, price: 94999, image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34", rating: 4.9 },
+    ];
+
+    function displayPackages(list) {
+      const container = document.getElementById("packageContainer");
+      container.innerHTML = "";
+      list.forEach(pkg => {
+        const stars = "★".repeat(Math.floor(pkg.rating)) + "☆".repeat(5 - Math.floor(pkg.rating));
+        container.innerHTML += `
+          <div style="width: 300px; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+            <img src="${pkg.image}" style="width: 100%; height: 180px; object-fit: cover;">
+            <div style="padding: 20px;">
+              <h3 style="margin: 0 0 10px; color: #198754;">${pkg.name}</h3>
+              <p style="margin: 5px 0;">📍 ${pkg.location}</p>
+              <p style="margin: 5px 0;">🕓 ${pkg.days} Days</p>
+              <p style="margin: 5px 0;">💸 ₹${pkg.price}</p>
+              <p style="margin: 5px 0; color: #f39c12; font-size: 1.1rem;">${stars} (${pkg.rating})</p>
+              <a href="book.html" style="display: inline-block; margin-top: 10px; background: #198754; color: white; text-decoration: none; padding: 10px 16px; border-radius: 6px;">Book Now</a>
+            </div>
+          </div>`;
+      });
+    }
+
+    function filterPackages() {
+      const loc = document.getElementById("filterLocation").value.toLowerCase();
+      const budget = document.getElementById("filterBudget").value;
+      const dur = document.getElementById("filterDuration").value;
+      const search = document.getElementById("searchInput").value.toLowerCase();
+
+      const filtered = packages.filter(pkg => {
+        return (
+          (loc === '' || pkg.location.toLowerCase().includes(loc)) &&
+          (budget === '' || pkg.price <= parseInt(budget)) &&
+          (dur === '' || pkg.days <= parseInt(dur)) &&
+          (pkg.name.toLowerCase().includes(search) || pkg.location.toLowerCase().includes(search))
+        );
+      });
+
+      displayPackages(filtered);
+    }
+
+    // Initial display
+    window.onload = () => displayPackages(packages);
+  </script>
+        <!-- 🔙 Quick Navigation Section -->
+<section style="background: #f8f9fa; padding: 40px 20px; text-align: center; font-family: 'Segoe UI', sans-serif;">
+  <h2 style="margin-bottom: 20px; color: #2c3e50;">🔗 Quick Links</h2>
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+    
+    <a href="index.html" style="background: #3498db; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🏠 Home
+    </a>
+
+    <a href="Destinations.html" style="background: #27ae60; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🗺️ Destinations
+    </a>
+    <a href="Contact.html" style="background: #8e44ad; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      ✉️ Contact
+    </a>
+
+  </div>
+</section>
+<!-- Footer -->
+  <footer style="background: #198754; color: white; text-align: center; padding: 20px;">
+    <p style="margin: 0;">© 2025 WanderGo Travel. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

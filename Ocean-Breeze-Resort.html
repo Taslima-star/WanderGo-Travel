@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book Ocean Breeze Resort</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background: linear-gradient(to right, #e0f7fa, #f0faff);">
+
+  <section style="padding: 60px 20px;">
+    <div style="max-width: 600px; margin: auto; background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);">
+      
+      <!-- Resort Heading -->
+      <h1 style="text-align: center; font-size: 2.5rem; color: #00695c; margin-bottom: 10px;">🌊 Ocean Breeze Resort</h1>
+      <p style="text-align: center; color: #666; margin-bottom: 30px;">📍 Beachside Paradise</p>
+
+      <!-- Booking Form -->
+      <form id="resortForm" onsubmit="return bookResort(event)" style="display: flex; flex-direction: column; gap: 18px;">
+        
+        <input type="text" id="name" placeholder="Your Full Name" required style="padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem;">
+        
+        <input type="email" id="email" placeholder="Your Email Address" required style="padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem;">
+        
+        <input type="tel" id="phone" placeholder="Your Phone Number" required style="padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem;">
+        
+        <div>
+          <label style="font-weight: 500; color: #00695c;">Room Type & Pricing</label><br>
+          <select id="room" required style="padding: 12px; border-radius: 8px; width: 100%; border: 1px solid #ccc; font-size: 1rem;">
+            <option value="">-- Select Room Type --</option>
+            <option value="Sea View|150">Sea View - $150/night</option>
+            <option value="Beachfront Villa|220">Beachfront Villa - $220/night</option>
+            <option value="Family Suite|300">Family Suite - $300/night</option>
+          </select>
+        </div>
+
+        <div style="display: flex; gap: 15px;">
+          <div style="flex: 1;">
+            <label style="font-weight: 500; color: #00695c;">Check-in</label><br>
+            <input type="date" id="checkin" required style="padding: 10px; width: 100%; border-radius: 8px; border: 1px solid #ccc;">
+          </div>
+          <div style="flex: 1;">
+            <label style="font-weight: 500; color: #00695c;">Check-out</label><br>
+            <input type="date" id="checkout" required style="padding: 10px; width: 100%; border-radius: 8px; border: 1px solid #ccc;">
+          </div>
+        </div>
+
+        <div id="totalPrice" style="margin-top: 5px; font-weight: bold; color: #00796b;"></div>
+
+        <button type="submit" style="padding: 14px; font-size: 1rem; background: #00796b; color: white; border: none; border-radius: 8px; cursor: pointer; transition: background 0.3s;">
+          ✅ Book Now
+        </button>
+      </form>
+
+      <!-- Success Message -->
+      <div id="bookingSuccess" style="display: none; margin-top: 25px; padding: 15px; background: #d0f8ce; color: #256029; border: 1px solid #c8e6c9; border-radius: 6px; font-size: 1rem; text-align: center;">
+        🎉 Your booking at Ocean Breeze Resort has been confirmed!
+      </div>
+
+    </div>
+  </section>
+
+  <!-- JavaScript -->
+  <script>
+    function calculateDays(checkin, checkout) {
+      const inDate = new Date(checkin);
+      const outDate = new Date(checkout);
+      const diffTime = outDate - inDate;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays > 0 ? diffDays : 0;
+    }
+
+    function updatePrice() {
+      const room = document.getElementById("room").value;
+      const checkin = document.getElementById("checkin").value;
+      const checkout = document.getElementById("checkout").value;
+      const totalPriceEl = document.getElementById("totalPrice");
+
+      if (room && checkin && checkout) {
+        const [roomName, pricePerNight] = room.split("|");
+        const nights = calculateDays(checkin, checkout);
+        const total = nights * parseFloat(pricePerNight);
+        if (nights > 0) {
+          totalPriceEl.textContent = `💵 Total Price for ${nights} night(s): $${total}`;
+        } else {
+          totalPriceEl.textContent = "";
+        }
+      } else {
+        totalPriceEl.textContent = "";
+      }
+    }
+
+    document.getElementById("room").addEventListener("change", updatePrice);
+    document.getElementById("checkin").addEventListener("change", updatePrice);
+    document.getElementById("checkout").addEventListener("change", updatePrice);
+
+    function bookResort(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const phone = document.getElementById("phone").value;
+      const room = document.getElementById("room").value;
+      const checkin = document.getElementById("checkin").value;
+      const checkout = document.getElementById("checkout").value;
+      const [roomName, pricePerNight] = room.split("|");
+      const nights = calculateDays(checkin, checkout);
+      const total = nights * parseFloat(pricePerNight);
+
+      console.log(`Booking for ${name} (${email}, ${phone})`);
+      console.log(`Room: ${roomName}`);
+      console.log(`Stay: ${nights} night(s) from ${checkin} to ${checkout}`);
+      console.log(`Total: $${total}`);
+
+      document.getElementById("resortForm").reset();
+      document.getElementById("totalPrice").textContent = "";
+      document.getElementById("bookingSuccess").style.display = "block";
+    }
+  </script>
+        <!-- 🔙 Quick Navigation Section -->
+<section style="background: #f8f9fa; padding: 40px 20px; text-align: center; font-family: 'Segoe UI', sans-serif;">
+  <h2 style="margin-bottom: 20px; color: #2c3e50;">🔗 Quick Links</h2>
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+    
+    <a href="index.html" style="background: #3498db; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🏠 Home
+    </a>
+
+    <a href="Destinations.html" style="background: #27ae60; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🗺️ Destinations
+    </a>
+
+    <a href="Packages.html" style="background: #e67e22; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🎁 Packages
+    </a>
+
+    <a href="Contact.html" style="background: #8e44ad; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      ✉️ Contact
+    </a>
+
+  </div>
+</section>
+
+
+  <footer style="text-align: center; padding: 20px; background: #2c3e50; color: white;">
+    © 2025 WanderGo Travel. All rights reserved.
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WanderGo Travel</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    header {
+      background-color: #1e3a8a;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #ffd700;
+    }
+
+    .book-btn {
+      background-color: #facc15;
+      color: #1e3a8a;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .book-btn:hover {
+      background-color: #eab308;
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        display: none;
+        background-color: #1e3a8a;
+        position: absolute;
+        top: 65px;
+        right: 30px;
+        width: 200px;
+        padding: 10px;
+        border-radius: 8px;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+    }
+
+    /* ===== Hero Section ===== */
+    .hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover;
+      height: 90vh;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+
+    .explore-btn {
+      background-color: #facc15;
+      color: #1e3a8a;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .explore-btn:hover {
+      background-color: #eab308;
+    }
+
+    /* ===== Destinations Section ===== */
+    .destinations {
+      padding: 60px 30px;
+      background-color: #f9fafb;
+      text-align: center;
+    }
+
+    .destinations h2 {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      color: #1e3a8a;
+    }
+
+    .destinations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .destination-card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .destination-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .destination-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .destination-card h3 {
+      margin: 15px 0;
+      color: #333;
+      font-size: 1.2rem;
+    }
+
+    .destination-card button {
+      background-color: #facc15;
+      color: #1e3a8a;
+      border: none;
+      padding: 10px 18px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .destination-card button:hover {
+      background-color: #eab308;
+    }
+
+    /* ===== Modal Styling ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 30px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .close-btn {
+      float: right;
+      font-size: 24px;
+      font-weight: bold;
+      color: #888;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: #000;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">WanderGo</div>
+    <nav>
+      <div class="menu-toggle" id="menuToggle">&#9776;</div>
+      <ul id="navLinks">
+        <li><a href="Home.html">Home</a></li>
+        <li><a href="Destinations.html">Destinations</a></li>
+        <li><a href="Packages.html">Packages</a></li>
+        <li><a href="Contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="book-btn" onclick="openBookingModal()"><a href="Book.html">Book Now</a></button>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div>
+      <h1>Discover Your Next Adventure</h1>
+      <p>Find unforgettable destinations and travel packages across the world.</p>
+      <button class="explore-btn" onclick="document.getElementById('exploreModal').style.display='block'">Explore
+        Now</button>
+    </div>
+  </section>
+
+  <!-- Explore Now Modal -->
+  <div id="exploreModal"
+    style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); z-index:9999;">
+    <div
+      style="background-color:white; margin:10% auto; padding:30px; width:80%; max-width:500px; border-radius:10px; text-align:center; position:relative;">
+      <span onclick="document.getElementById('exploreModal').style.display='none'"
+        style="position:absolute; top:10px; right:15px; font-size:24px; font-weight:bold; color:#888; cursor:pointer;">&times;</span>
+      <h2 style="color:#1e3a8a;">Start Exploring!</h2>
+      <p style="margin:20px 0;">Use our search to find your perfect destination and plan your next journey.</p>
+      <button onclick="alert('Redirect to search page or form')"
+        style="background-color:#1e3a8a; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; font-weight:bold;"><a href="Search-destination.html">Search Destinations</a>
+        </button>
+    </div>
+  </div>
+
+  <!-- 🌍 Popular Destinations Section -->
+  <section class="destinations">
+    <h2>🌍 Popular Destinations</h2>
+    <div class="destinations-grid">
+      <div class="destination-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS9ChiDpo5iixtLvf_lxhVgMGP2X52JN3Bxw&s"
+          alt="Paris">
+        <h3>Paris, France</h3>
+        <button>View More</button>
+      </div>
+      <div class="destination-card">
+        <img src="https://static.toiimg.com/photo/53840498.cms" alt="Bali">
+        <h3>Bali, Indonesia</h3>
+        <button>View More</button>
+      </div>
+      <div class="destination-card">
+        <img src="https://res.cloudinary.com/dtljonz0f/image/upload/shutterstock_329662223_ss_non-editorial_3_csm8lw"
+          alt="New York">
+        <h3>New York, USA</h3>
+        <button>View More</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Destination Modal -->
+  <div id="destinationModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2 id="modalTitle">Destination Name</h2>
+      <p id="modalDescription">More information about the selected destination will appear here.</p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Mobile menu toggle
+    document.getElementById("menuToggle").addEventListener("click", function () {
+      document.getElementById("navLinks").classList.toggle("active");
+    });
+
+    function openBookingModal() {
+      alert("Booking Modal Triggered!");
+    }
+
+    // Destination modal data
+    const destinationInfo = {
+      "Paris, France": "Explore the romantic city of Paris with its world-famous Eiffel Tower, art museums, cafes, and charming streets.",
+      "Bali, Indonesia": "Bali offers tropical beaches, cultural temples, serene rice fields, and the perfect blend of adventure and relaxation.",
+      "New York, USA": "The city that never sleeps. Experience Times Square, Central Park, Broadway shows, and global cuisine."
+    };
+
+    const modal = document.getElementById("destinationModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDescription = document.getElementById("modalDescription");
+    const closeBtn = document.querySelector(".close-btn");
+
+    // Open destination modal
+    document.querySelectorAll(".destination-card button").forEach(button => {
+      button.addEventListener("click", () => {
+        const cardTitle = button.previousElementSibling.textContent;
+        modalTitle.textContent = cardTitle;
+        modalDescription.textContent = destinationInfo[cardTitle] || "Details coming soon!";
+        modal.style.display = "block";
+      });
+    });
+
+    // Close destination modal
+    closeBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    // Close modals on outside click
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+      if (e.target === document.getElementById("exploreModal")) {
+        document.getElementById("exploreModal").style.display = "none";
+      }
+    });
+  </script>
+  <!-- 🛏️ Where to Stay Section -->
+  <section style="padding: 60px 30px; background-color: #ffffff; text-align: center;">
+    <h2 style="font-size: 2.5rem; margin-bottom: 40px; color: #1e3a8a;">🛏️ Where to Stay</h2>
+    <div
+      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; max-width: 1200px; margin: auto;">
+
+      <!-- Hotel Card 1 -->
+      <div style="background:#f9fafb; border-radius:12px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAwGbKLvgArPr5xQjARIT8AA4IdgjsfQRjQw&s"
+          alt="Hotel" style="width:100%; height:200px; object-fit:cover;">
+        <div style="padding:20px;">
+          <h3 style="color:#333;">Royal Orchid, Paris</h3>
+          <p style="margin:8px 0; color:#666;">Paris, France</p>
+          <p style="margin:8px 0; color:#888;">⭐ 4.5 | ₹14,500/night</p>
+          <button
+            onclick="openHotelModal('Royal Orchid, Paris', 'A luxury 5-star stay in the heart of Paris near the Eiffel Tower.')"
+            style="background-color:#facc15; color:#1e3a8a; border:none; padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:bold;"><a href="Royal-Orchid.html">View Details</a>
+            </button>
+        </div>
+      </div>
+
+      <!-- Hotel Card 2 -->
+      <div style="background:#f9fafb; border-radius:12px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+        <img
+          src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/27072539.jpg?k=5315884d2669d87503d58a0006796e96bc54c2c98079e59023c5452258297e84&o=&hp=1"
+          alt="Hotel" style="width:100%; height:200px; object-fit:cover;">
+        <div style="padding:20px;">
+          <h3 style="color:#333;">Ocean Breeze Resort</h3>
+          <p style="margin:8px 0; color:#666;">Bali, Indonesia</p>
+          <p style="margin:8px 0; color:#888;">⭐ 4.7 | ₹9,800/night</p>
+          <button
+            onclick="openHotelModal('Ocean Breeze Resort', 'Tropical beachfront resort with spa, pool, and ocean view rooms.')"
+            style="background-color:#facc15; color:#1e3a8a; border:none; padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:bold;"><a href="Ocean-Breeze-Resort.html">View Details</a>
+            </button>
+        </div>
+      </div>
+
+      <!-- Hotel Card 3 -->
+      <div style="background:#f9fafb; border-radius:12px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+        <img
+          src="data:image/jpeg;base64,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"
+          alt="Hotel" style="width:100%; height:200px; object-fit:cover;">
+        <div style="padding:20px;">
+          <h3 style="color:#333;">Midtown Grand Hotel</h3>
+          <p style="margin:8px 0; color:#666;">New York, USA</p>
+          <p style="margin:8px 0; color:#888;">⭐ 4.3 | ₹12,000/night</p>
+          <button
+            onclick="openHotelModal('Midtown Grand Hotel', 'Modern hotel with skyline views, near Times Square and Broadway.')"
+            style="background-color:#facc15; color:#1e3a8a; border:none; padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:bold;"><a href="Midtown-Grand-Hotel.html">View Details</a>
+            </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Hotel Modal -->
+  <div id="hotelModal"
+    style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.6); z-index:9999;">
+    <div
+      style="background:#fff; width:90%; max-width:500px; margin:10% auto; padding:30px; border-radius:10px; position:relative; text-align:center;">
+      <span onclick="document.getElementById('hotelModal').style.display='none'"
+        style="position:absolute; top:10px; right:15px; font-size:24px; font-weight:bold; color:#888; cursor:pointer;">&times;</span>
+      <h2 id="hotelTitle" style="color:#1e3a8a;">Hotel Name</h2>
+      <p id="hotelDesc" style="margin:20px 0; color:#333;">Hotel description will appear here.</p>
+      <button onclick="alert('Redirect to booking page')"
+        style="background-color:#1e3a8a; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; font-weight:bold;">
+        Book Now
+      </button>
+    </div>
+  </div>
+
+  <!-- JavaScript for Modal -->
+  <script>
+    function openHotelModal(title, desc) {
+      document.getElementById("hotelTitle").innerText = title;
+      document.getElementById("hotelDesc").innerText = desc;
+      document.getElementById("hotelModal").style.display = "block";
+    }
+
+    // Close modal on outside click
+    window.addEventListener("click", function (e) {
+      const modal = document.getElementById("hotelModal");
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+  </script>
+  <!-- 🍽️ Top Food & Dining Experiences -->
+  <section style="padding: 60px 30px; background-color: #fffbea; text-align: center;">
+    <h2 style="font-size: 2.5rem; margin-bottom: 40px; color: #b45309;">🍽️ Top Food & Dining</h2>
+
+    <div
+      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; max-width: 1200px; margin: auto;">
+
+      <div
+        style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s;">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOKBkf2NrniOFkUZ01DjFuFm5Whzpt1wKnFQ&s" alt="Italian Cuisine"
+          style="width: 100%; height: 200px; object-fit: cover;">
+        <h3 style="margin: 15px 0; color: #333;"><a href="Italian-Delights.html">Italian Delights</a></h3>
+        <p style="padding: 0 15px 20px;">Experience authentic pasta, wood-fired pizza, and creamy tiramisu in romantic
+          surroundings.</p>
+      </div>
+
+      <div
+        style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s;">
+        <img src="https://blog.moustachescapes.com/wp-content/uploads/2024/01/608e606dcac47_1619943533-1.jpg" alt="Street Food"
+          style="width: 100%; height: 200px; object-fit: cover;">
+        <h3 style="margin: 15px 0; color: #333;"><a href="Local-Street-Food.html">Local Street Food</a></h3>
+        <p style="padding: 0 15px 20px;">Explore vibrant street markets</p>
+      </div>
+    </div>
+  </section>
+  <!-- 🧭 Things to Do / Must Visit -->
+  <section style="padding: 60px 30px; background-color: #f0f9ff; text-align: center;">
+    <h2 style="font-size: 2.5rem; margin-bottom: 40px; color: #0284c7;">🧭 Things to Do / Must Visit</h2>
+
+    <div
+      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; max-width: 1200px; margin: auto;">
+
+      <div
+        style="background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s;">
+        <img src="https://i.pinimg.com/736x/63/b5/49/63b549787499149ebb338efd8ced4e18.jpg" alt="Mountain Hike"
+          style="width: 100%; height: 200px; object-fit: cover;">
+        <h3 style="margin: 15px 0; color: #1e293b;">Mountain Hiking</h3>
+        <p style="padding: 0 15px 20px;">Embark on breathtaking hikes and experience panoramic views from scenic
+          mountain trails.</p>
+      </div>
+
+      <div
+        style="background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s;">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDe19fzPjThOHsak52U5v_DOYR-jq3gs-vqw&s" alt="Museum"
+          style="width: 100%; height: 200px; object-fit: cover;">
+        <h3 style="margin: 15px 0; color: #1e293b;">Cultural Museums</h3>
+        <p style="padding: 0 15px 20px;">Explore rich heritage, historical artifacts, and artistic masterpieces in
+          world-class museums.</p>
+      </div>
+
+      <div
+        style="background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s;">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmHZHCagN43T5Kon4EWITB3Sco1UKNwzYAxQ&s" alt="Beach Fun"
+          style="width: 100%; height: 200px; object-fit: cover;">
+        <h3 style="margin: 15px 0; color: #1e293b;">Beach Adventures</h3>
+        <p style="padding: 0 15px 20px;">Enjoy water sports, sunset cruises, and beach yoga on golden shores with
+          crystal-clear waters.</p>
+      </div>
+
+    </div>
+  </section>
+  <!-- 🌟 Customer Testimonials -->
+  <section style="padding: 60px 30px; background-color: #f0fdf4; text-align: center;">
+    <h2 style="font-size: 2.5rem; margin-bottom: 40px; color: #047857;">🌟 What Our Travelers Say</h2>
+    <div
+      style="max-width: 1000px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+
+      <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <p style="font-style: italic;">"WanderGo made my Paris trip magical. Everything was perfectly organized!"</p>
+        <p style="margin-top: 10px; font-weight: bold; color: #1e3a8a;">– Ayesha R.</p>
+      </div>
+
+      <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <p style="font-style: italic;">"I loved the Bali resort package – beautiful location and great price!"</p>
+        <p style="margin-top: 10px; font-weight: bold; color: #1e3a8a;">– Rohit K.</p>
+      </div>
+
+      <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <p style="font-style: italic;">"Their support team is amazing! Helped me plan a last-minute trip smoothly."</p>
+        <p style="margin-top: 10px; font-weight: bold; color: #1e3a8a;">– Sneha M.</p>
+      </div>
+
+    </div>
+  </section>
+  <!-- ❓ Frequently Asked Questions -->
+  <section style="padding: 60px 30px; background-color: #fefce8; text-align: center;">
+    <h2 style="font-size: 2.5rem; margin-bottom: 40px; color: #b45309;">❓ Frequently Asked Questions</h2>
+    <div style="max-width: 900px; margin: auto; text-align: left; font-size: 1rem; line-height: 1.6; color: #374151;">
+
+      <div style="margin-bottom: 30px;">
+        <h4 style="color: #1e3a8a; margin-bottom: 10px;">Q: Can I cancel or change my booking?</h4>
+        <p>Yes, most bookings are flexible and can be modified or cancelled within 24 hours. However, please check the
+          individual cancellation policy for your selected package or hotel.</p>
+      </div>
+
+      <div style="margin-bottom: 30px;">
+        <h4 style="color: #1e3a8a; margin-bottom: 10px;">Q: Do I need a visa to travel abroad?</h4>
+        <p>Visa requirements vary based on your nationality and destination. We recommend checking with the respective
+          embassy or using our Visa Assistance service.</p>
+      </div>
+
+      <div style="margin-bottom: 30px;">
+        <h4 style="color: #1e3a8a; margin-bottom: 10px;">Q: Is travel insurance included in the package?</h4>
+        <p>No, travel insurance is optional but highly recommended. You can add it during the booking process at an
+          extra cost.</p>
+      </div>
+
+      <div style="margin-bottom: 30px;">
+        <h4 style="color: #1e3a8a; margin-bottom: 10px;">Q: How can I contact customer support?</h4>
+        <p>You can reach us 24/7 through our chat support, email (<a href="mailto:support@wandergo.com"
+            style="color: #ef4444;">support@wandergo.com</a>), or call us at +91-9876543210.</p>
+      </div>
+
+    </div>
+  </section>
+  <!-- 📬 Newsletter Signup -->
+  <section style="padding: 60px 30px; background-color: #e0f2fe; text-align: center;">
+    <h2 style="font-size: 2.5rem; margin-bottom: 20px; color: #0369a1;">📬 Get Travel Tips & Offers</h2>
+    <p style="margin-bottom: 30px; font-size: 1rem; color: #334155;">
+      Subscribe to receive travel inspiration, exclusive deals, and destination updates straight to your inbox.
+    </p>
+
+    <form onsubmit="event.preventDefault(); alert('Thank you for subscribing!');"
+      style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; max-width: 500px; margin: auto;">
+      <input type="email" placeholder="Enter your email address" required
+        style="padding: 12px 15px; flex: 1 1 250px; border: 1px solid #94a3b8; border-radius: 6px; font-size: 1rem; outline: none;" />
+      <button type="submit"
+        style="background-color: #1e3a8a; color: #ffffff; border: none; padding: 12px 20px; border-radius: 6px; font-weight: bold; font-size: 1rem; cursor: pointer;">
+        Subscribe
+      </button>
+    </form>
+  </section>
+  <!-- 👥 About WanderGo -->
+  <section style="padding: 60px 30px; background-color: #f1f5f9; text-align: center;">
+    <h2 style="font-size: 2.5rem; margin-bottom: 20px; color: #1e3a8a;">👥 About WanderGo</h2>
+    <p style="max-width: 800px; margin: auto; color: #475569; font-size: 1rem;">
+      WanderGo is your trusted travel companion helping you explore the world with curated experiences, top-rated stays,
+      and budget-friendly packages. Whether you're planning a solo trip, a romantic getaway, or a family vacation —
+      we're here to guide you every step of the way.
+    </p>
+  </section>
+  <!-- 🔗 Social Media Links -->
+  <section style="padding: 40px 30px; background-color: #1e3a8a; text-align: center; color: white;">
+    <h2 style="margin-bottom: 20px;">Follow Us on Social Media</h2>
+    <div style="display: flex; justify-content: center; gap: 20px;">
+      <a href="#" style="color: white; font-size: 1.5rem;">🌐 Facebook</a>
+      <a href="#" style="color: white; font-size: 1.5rem;">📸 Instagram</a>
+      <a href="#" style="color: white; font-size: 1.5rem;">🐦 Twitter</a>
+      <a href="#" style="color: white; font-size: 1.5rem;">▶️ YouTube</a>
+    </div>
+  </section>
+  <!-- 🌍 Why Choose Us Section (Inline CSS) -->
+  <section style="background: #f8f9fa; padding: 60px 20px; text-align: center; font-family: 'Segoe UI', sans-serif;">
+    <div style="max-width: 1200px; margin: auto;">
+      <h2 style="font-size: 2.5rem; margin-bottom: 10px; color: #2c3e50;">🌍 Why Choose WanderGo?</h2>
+      <p style="color: #555; margin-bottom: 40px; font-size: 1.1rem;">
+        Explore the world with confidence. Here's why travelers love us:
+      </p>
+
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
+
+        <!-- Box 1 -->
+        <div
+          style="background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); padding: 30px 20px; width: 250px;">
+          <img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png" alt="Handpicked"
+            style="width: 60px; height: 60px; margin-bottom: 15px;">
+          <h3 style="font-size: 1.2rem; color: #34495e; margin-bottom: 10px;">Handpicked Destinations</h3>
+          <p style="color: #666; font-size: 0.95rem;">Carefully selected travel spots to offer the best experiences.</p>
+        </div>
+
+        <!-- Box 2 -->
+        <div
+          style="background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); padding: 30px 20px; width: 250px;">
+          <img src="https://cdn-icons-png.flaticon.com/512/983/983617.png" alt="Support"
+            style="width: 60px; height: 60px; margin-bottom: 15px;">
+          <h3 style="font-size: 1.2rem; color: #34495e; margin-bottom: 10px;">24/7 Support</h3>
+          <p style="color: #666; font-size: 0.95rem;">Anytime, anywhere — our team is here to assist you.</p>
+        </div>
+
+        <!-- Box 3 -->
+        <div
+          style="background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); padding: 30px 20px; width: 250px;">
+          <img src="https://cdn-icons-png.flaticon.com/512/2910/2910791.png" alt="Affordable"
+            style="width: 60px; height: 60px; margin-bottom: 15px;">
+          <h3 style="font-size: 1.2rem; color: #34495e; margin-bottom: 10px;">Affordable Packages</h3>
+          <p style="color: #666; font-size: 0.95rem;">Top-notch trips that suit your budget without compromise.</p>
+        </div>
+
+        <!-- Box 4 -->
+        <div
+          style="background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); padding: 30px 20px; width: 250px;">
+          <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Verified Reviews"
+            style="width: 60px; height: 60px; margin-bottom: 15px;">
+          <h3 style="font-size: 1.2rem; color: #34495e; margin-bottom: 10px;">Verified Reviews</h3>
+          <p style="color: #666; font-size: 0.95rem;">Trusted feedback from real travelers who explored with us.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- 🏝️ Seasonal Offers / Deals Section -->
+  <section style="background: #fffaf0; padding: 60px 20px; text-align: center; font-family: 'Segoe UI', sans-serif;">
+    <div style="max-width: 1200px; margin: auto;">
+      <h2 style="font-size: 2.5rem; margin-bottom: 10px; color: #d35400;">🏝️ Seasonal Offers & Hot Deals</h2>
+      <p style="color: #555; margin-bottom: 40px; font-size: 1.1rem;">
+        Limited-time travel deals just for you – book before they're gone!
+      </p>
+
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
+
+        <!-- Deal 1 -->
+        <div
+          style="background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 280px; overflow: hidden;">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Beach Getaway"
+            style="width: 100%; height: 180px; object-fit: cover;">
+          <div style="padding: 20px;">
+            <h3 style="font-size: 1.2rem; color: #2c3e50; margin-bottom: 10px;">🏖️ Beach Getaway - 30% OFF</h3>
+            <p style="font-size: 0.95rem; color: #666;">Book your Maldives or Goa escape with huge discounts this
+              summer!</p>
+            <a href="beach-deal.html"
+              style="display: inline-block; margin-top: 15px; background: #e67e22; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">Book
+              Now</a>
+          </div>
+        </div>
+
+        <!-- Deal 2 -->
+        <div
+          style="background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 280px; overflow: hidden;">
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" alt="Mountain Adventure"
+            style="width: 100%; height: 180px; object-fit: cover;">
+          <div style="padding: 20px;">
+            <h3 style="font-size: 1.2rem; color: #2c3e50; margin-bottom: 10px;">🏔️ Mountain Escape - Flat ₹5000 Off
+            </h3>
+            <p style="font-size: 0.95rem; color: #666;">Enjoy Himachal & Kashmir snow tours with flat discounts this
+              monsoon.</p>
+            <a href="mountain-deal.html"
+              style="display: inline-block; margin-top: 15px; background: #e67e22; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">Grab
+              Deal</a>
+          </div>
+        </div>
+
+        <!-- Deal 3 -->
+        <div
+          style="background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 280px; overflow: hidden;">
+          <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb" alt="City Tours"
+            style="width: 100%; height: 180px; object-fit: cover;">
+          <div style="padding: 20px;">
+            <h3 style="font-size: 1.2rem; color: #2c3e50; margin-bottom: 10px;">🏙️ City Tours - Buy 1 Get 1</h3>
+            <p style="font-size: 0.95rem; color: #666;">Travel with friends! Buy one city tour & get another free.
+              Limited time!</p>
+            <a href="city-tour.html"
+              style="display: inline-block; margin-top: 15px; background: #e67e22; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">View
+              Offer</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- 📸 Travel Gallery / Instagram Feed -->
+  <section style="background: #ffffff; padding: 60px 20px; font-family: 'Segoe UI', sans-serif; text-align: center;">
+    <div style="max-width: 1200px; margin: auto;">
+      <h2 style="font-size: 2.5rem; margin-bottom: 10px; color: #2c3e50;">📸 Travel Gallery</h2>
+      <p style="color: #777; margin-bottom: 40px; font-size: 1.1rem;">
+        Memories from our travelers and featured Instagram moments
+      </p>
+
+      <!-- Image Grid -->
+      <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+
+        <!-- Image 1 -->
+        <div
+          style="width: 280px; height: 200px; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+          <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0" alt="Travel 1"
+            style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+        <!-- Image 2 -->
+        <div
+          style="width: 280px; height: 200px; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+          <img src="https://images.unsplash.com/photo-1493558103817-58b2924bce98" alt="Travel 2"
+            style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+        <!-- Image 3 -->
+        <div
+          style="width: 280px; height: 200px; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Travel 3"
+            style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+        <!-- Image 4 -->
+        <div
+          style="width: 280px; height: 200px; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+          <img src="https://media.istockphoto.com/id/1500563478/photo/traveler-asian-woman-relax-and-travel-on-thai-longtail-boat-in-ratchaprapha-dam-at-khao-sok.jpg?s=612x612&w=0&k=20&c=_bb2PdPJMtY9KmNNBSFY6w_TOcC98we45LvsYoa48p8=" alt="Travel 4"
+            style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+        <!-- Image 5 -->
+        <div
+          style="width: 280px; height: 200px; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" alt="Travel 5"
+            style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+        <!-- Image 6 -->
+        <div
+          style="width: 280px; height: 200px; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+          <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1" alt="Travel 6"
+            style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+      </div>
+
+      <!-- Instagram CTA -->
+      <p style="margin-top: 40px; font-size: 1rem; color: #555;">
+        Follow us on Instagram 👉
+        <a href="https://www.instagram.com" target="_blank"
+          style="color: #e1306c; text-decoration: none; font-weight: bold;">@wandergo_travel</a>
+      </p>
+    </div>
+  </section>
+  <!-- 📅 Plan Your Trip Section -->
+  <section style="background: #fefefe; padding: 60px 20px; font-family: 'Segoe UI', sans-serif;">
+    <div style="max-width: 800px; margin: auto; text-align: center;">
+      <h2 style="font-size: 2.5rem; color: #2c3e50; margin-bottom: 10px;">📅 Plan Your Trip</h2>
+      <p style="color: #555; font-size: 1.1rem; margin-bottom: 30px;">
+        Tell us your preferences and we’ll help design the perfect journey for you!
+      </p>
+
+      <form id="tripForm" onsubmit="return submitTripForm(event)"
+        style="display: flex; flex-direction: column; gap: 15px; text-align: left;">
+        <!-- Full Name -->
+        <input type="text" id="name" placeholder="Your Full Name" required
+          style="padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem;">
+
+        <!-- Email -->
+        <input type="email" id="email" placeholder="Email Address" required
+          style="padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem;">
+
+        <!-- Phone -->
+        <input type="tel" id="phone" placeholder="Phone Number" required
+          style="padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem;">
+
+        <!-- Destination -->
+        <select id="destination" required
+          style="padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem;">
+          <option value="">Choose Destination</option>
+          <option value="Goa">Goa</option>
+          <option value="Maldives">Maldives</option>
+          <option value="Kashmir">Kashmir</option>
+          <option value="Himachal">Himachal</option>
+          <option value="Dubai">Dubai</option>
+        </select>
+
+        <!-- Travel Dates -->
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <input type="date" id="startDate" required
+            style="flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 6px;">
+          <input type="date" id="endDate" required
+            style="flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 6px;">
+        </div>
+
+        <!-- Number of Travelers -->
+        <input type="number" id="travelers" placeholder="Number of Travelers" required min="1"
+          style="padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem;">
+
+        <!-- Preferences -->
+        <textarea id="preferences" placeholder="Any special preferences or activities?" rows="4"
+          style="padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem;"></textarea>
+
+        <!-- Submit Button -->
+        <button type="submit"
+          style="margin-top: 10px; background: #e67e22; color: white; padding: 14px; border: none; border-radius: 6px; font-size: 1rem; cursor: pointer;">
+          Submit Trip Plan
+        </button>
+      </form>
+
+      <!-- Success Message -->
+      <div id="successMessage"
+        style="display: none; margin-top: 30px; padding: 20px; background: #dff0d8; color: #3c763d; border: 1px solid #d6e9c6; border-radius: 6px; font-size: 1rem;">
+        ✅ Your trip details have been submitted successfully!
+      </div>
+    </div>
+  </section>
+
+  <!-- Inline JavaScript -->
+  <script>
+    function submitTripForm(event) {
+      event.preventDefault();
+
+      // Basic Validation (optional)
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+
+      if (name === "" || email === "" || phone === "") {
+        alert("Please fill in all required fields.");
+        return false;
+      }
+
+      // You can process or store the form data here
+
+      // Show success message
+      document.getElementById("successMessage").style.display = "block";
+
+      // Reset form
+      document.getElementById("tripForm").reset();
+
+      return false;
+    }
+  </script>
+  <!-- 📍 Interactive Map Section -->
+  <section style="padding: 60px 20px; background: #f4faff; font-family: 'Segoe UI', sans-serif;">
+    <div style="max-width: 1000px; margin: auto; text-align: center;">
+      <h2 style="font-size: 2.5rem; color: #2c3e50; margin-bottom: 10px;">📍 Explore Our Travel Spots</h2>
+      <p style="color: #555; font-size: 1.1rem; margin-bottom: 40px;">
+        Click on the map markers to discover destinations!
+      </p>
+
+      <div
+        style="position: relative; width: 100%; max-width: 800px; height: 450px; margin: auto; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        <img
+          src="data:image/jpeg;base64,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"
+          alt="World Map" style="width: 100%; height: 100%; object-fit: cover;">
+
+        <!-- Marker: Maldives -->
+        <div onclick="showInfo('Maldives')" title="Maldives"
+          style="position: absolute; top: 65%; left: 75%; width: 16px; height: 16px; background: red; border-radius: 50%; cursor: pointer;">
+        </div>
+
+        <!-- Marker: Goa -->
+        <div onclick="showInfo('Goa')" title="Goa"
+          style="position: absolute; top: 63%; left: 65%; width: 16px; height: 16px; background: orange; border-radius: 50%; cursor: pointer;">
+        </div>
+
+        <!-- Marker: Kashmir -->
+        <div onclick="showInfo('Kashmir')" title="Kashmir"
+          style="position: absolute; top: 40%; left: 65%; width: 16px; height: 16px; background: green; border-radius: 50%; cursor: pointer;">
+        </div>
+
+        <!-- Marker: Dubai -->
+        <div onclick="showInfo('Dubai')" title="Dubai"
+          style="position: absolute; top: 55%; left: 70%; width: 16px; height: 16px; background: blue; border-radius: 50%; cursor: pointer;">
+        </div>
+      </div>
+
+      <!-- Info Box -->
+      <div id="infoBox"
+        style="margin-top: 30px; padding: 20px; background: #fff; border-radius: 8px; border: 1px solid #ccc; max-width: 600px; margin-inline: auto; display: none;">
+        <strong id="locationName" style="font-size: 1.3rem;"></strong>
+        <p id="locationInfo" style="margin-top: 10px; color: #444;"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Inline JavaScript -->
+  <script>
+    function showInfo(location) {
+      const infoBox = document.getElementById("infoBox");
+      const locationName = document.getElementById("locationName");
+      const locationInfo = document.getElementById("locationInfo");
+
+      const details = {
+        "Maldives": "Tropical paradise with overwater bungalows, turquoise waters, and romantic escapes.",
+        "Goa": "Beach capital of India known for its vibrant nightlife, Portuguese heritage, and laid-back vibe.",
+        "Kashmir": "Heaven on Earth with snowy mountains, houseboats, shikara rides, and lush valleys.",
+        "Dubai": "Modern city of luxury, skyscrapers, desert safaris, and world-famous shopping experiences."
+      };
+
+      locationName.textContent = location;
+      locationInfo.textContent = details[location] || "Details coming soon!";
+      infoBox.style.display = "block";
+    }
+  </script>
+  <!-- 📞 Contact & Support Section -->
+  <section style="padding: 60px 20px; background: #fefefe; font-family: 'Segoe UI', sans-serif;">
+    <div style="max-width: 900px; margin: auto;">
+
+      <h2 style="text-align: center; font-size: 2.5rem; color: #2c3e50; margin-bottom: 10px;">📞 Contact & Support</h2>
+      <p style="text-align: center; font-size: 1.1rem; color: #555; margin-bottom: 40px;">
+        Have questions? We’re here to help 24/7.
+      </p>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: center;">
+
+        <!-- Contact Info -->
+        <div style="flex: 1; min-width: 260px;">
+          <h3 style="color: #e67e22;">📍 Office Address</h3>
+          <p style="color: #333;">WanderGo Travel Pvt. Ltd.<br>
+            4th Floor, Sunrise Tower, Mumbai, India</p>
+
+          <h3 style="color: #e67e22;">📧 Email Us</h3>
+          <p style="color: #333;">support@wandergo.com</p>
+
+          <h3 style="color: #e67e22;">📱 Call / WhatsApp</h3>
+          <p style="color: #333;">+91 98765 43210</p>
+        </div>
+
+        <!-- Contact Form -->
+        <div style="flex: 1; min-width: 300px;">
+          <form id="supportForm" onsubmit="return validateSupportForm(event)"
+            style="display: flex; flex-direction: column; gap: 15px;">
+            <input type="text" id="supportName" placeholder="Your Name" required
+              style="padding: 12px; border: 1px solid #ccc; border-radius: 6px;">
+
+            <input type="email" id="supportEmail" placeholder="Your Email" required
+              style="padding: 12px; border: 1px solid #ccc; border-radius: 6px;">
+
+            <input type="tel" id="supportPhone" placeholder="Phone Number (optional)"
+              style="padding: 12px; border: 1px solid #ccc; border-radius: 6px;">
+
+            <textarea id="supportMessage" placeholder="How can we help you?" rows="4" required
+              style="padding: 12px; border: 1px solid #ccc; border-radius: 6px;"></textarea>
+
+            <button type="submit"
+              style="background: #e67e22; color: white; padding: 12px; border: none; border-radius: 6px; font-size: 1rem; cursor: pointer;">
+              Send Message
+            </button>
+          </form>
+
+          <div id="supportSuccess"
+            style="display: none; margin-top: 20px; padding: 15px; background: #dff0d8; color: #3c763d; border: 1px solid #d6e9c6; border-radius: 6px;">
+            ✅ Thank you! Your message has been sent.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Inline JavaScript for validation -->
+  <script>
+    function validateSupportForm(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('supportName').value.trim();
+      const email = document.getElementById('supportEmail').value.trim();
+      const message = document.getElementById('supportMessage').value.trim();
+
+      if (!name || !email || !message) {
+        alert("Please fill in all required fields.");
+        return false;
+      }
+
+      // Simulate form submission
+      document.getElementById("supportForm").reset();
+      document.getElementById("supportSuccess").style.display = "block";
+
+      return false;
+    }
+  </script>
+        <!-- 🔙 Quick Navigation Section -->
+<section style="background: #f8f9fa; padding: 40px 20px; text-align: center; font-family: 'Segoe UI', sans-serif;">
+  <h2 style="margin-bottom: 20px; color: #2c3e50;">🔗 Quick Links</h2>
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+    <a href="Destinations.html" style="background: #27ae60; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🗺️ Destinations
+    </a>
+
+    <a href="Packages.html" style="background: #e67e22; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🎁 Packages
+    </a>
+
+    <a href="Contact.html" style="background: #8e44ad; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      ✉️ Contact
+    </a>
+
+  </div>
+</section>
+
+  <!-- 🦶 Footer -->
+  <footer style="padding: 20px 30px; background-color: #0f172a; color: white; text-align: center;">
+    <p>&copy; 2025 WanderGo Travel. All rights reserved.</p>
+    <p style="font-size: 0.9rem;">Designed by Taslima Nisan</p>
+  </footer>
+
+
+
+</body>
+
+</html>

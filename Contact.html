@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - WanderGo</title>
+</head>
+<body style="margin: 0; font-family: 'Segoe UI', sans-serif; background: #f4f6f8; color: #333;">
+
+  <!-- Header -->
+  <header style="background: #007bff; color: white; padding: 40px 20px; text-align: center;">
+    <h1 style="margin: 0; font-size: 2.5rem;">📞 Contact WanderGo</h1>
+    <p style="font-size: 1.1rem;">We'd love to hear from you!</p>
+  </header>
+
+  <!-- Contact Form -->
+  <section style="padding: 40px 20px; max-width: 700px; margin: auto;">
+    <form onsubmit="return sendMessage(event)" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; flex-direction: column; gap: 15px;">
+      <input type="text" id="name" placeholder="Your Full Name" required style="padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem;">
+      <input type="email" id="email" placeholder="Your Email" required style="padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem;">
+      <input type="text" id="subject" placeholder="Subject" required style="padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem;">
+      <textarea id="message" rows="6" placeholder="Write your message here..." required style="padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem;"></textarea>
+      <button type="submit" style="padding: 12px; font-size: 1rem; background: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer;">Send Message</button>
+      <div id="successMsg" style="display: none; padding: 12px; background: #d4edda; color: #155724; border-radius: 6px; text-align: center;">✅ Message sent successfully!</div>
+    </form>
+  </section>
+
+  <!-- Contact Info -->
+  <section style="padding: 20px; max-width: 700px; margin: auto;">
+    <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+      <h3 style="color: #007bff;">📬 Our Address</h3>
+      <p>WanderGo Headquarters,<br>123 Travel Street,<br>Mumbai, India - 400001</p>
+
+      <h3 style="color: #007bff;">📱 Call Us</h3>
+      <p>+91 98765 43210</p>
+
+      <h3 style="color: #007bff;">✉️ Email</h3>
+      <p>support@wandergotravel.com</p>
+    </div>
+  </section>
+<!-- Inline JavaScript -->
+  <script>
+    function sendMessage(event) {
+      event.preventDefault();
+      document.getElementById("name").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("subject").value = "";
+      document.getElementById("message").value = "";
+      document.getElementById("successMsg").style.display = "block";
+      return false;
+    }
+  </script>
+  <section style="background: #f8f9fa; padding: 40px 20px; text-align: center; font-family: 'Segoe UI', sans-serif;">
+  <h2 style="margin-bottom: 20px; color: #2c3e50;">🔗 Quick Links</h2>
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+    
+    <a href="index.html" style="background: #3498db; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🏠 Home
+    </a>
+
+    <a href="Destinations.html" style="background: #27ae60; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🗺️ Destinations
+    </a>
+
+    <a href="Packages.html" style="background: #e67e22; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🎁 Packages
+    </a>
+</div>
+</section>
+   <!-- Footer -->
+  <footer style="background: #007bff; color: white; text-align: center; padding: 20px; margin-top: 40px;">
+    <p style="margin: 0;">© 2025 WanderGo Travel. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Book Royal Orchid, Paris</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background: linear-gradient(to right, #f0f8ff, #e8f0fe);">
+
+  <section style="padding: 60px 20px;">
+    <div style="max-width: 600px; margin: auto; background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);">
+      
+      <!-- Hotel Heading -->
+      <h1 style="text-align: center; font-size: 2.5rem; color: #2c3e50; margin-bottom: 10px;">🏨 Royal Orchid, Paris</h1>
+      <p style="text-align: center; color: #666; margin-bottom: 30px;">📍 Paris, France</p>
+
+      <!-- Booking Form -->
+      <form id="hotelForm" onsubmit="return bookHotel(event)" style="display: flex; flex-direction: column; gap: 18px;">
+        
+        <input type="text" id="name" placeholder="Your Full Name" required style="padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem;">
+        
+        <input type="email" id="email" placeholder="Your Email Address" required style="padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem;">
+        
+        <input type="tel" id="phone" placeholder="Your Phone Number" required style="padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem;">
+        
+        <div>
+          <label style="font-weight: 500; color: #2c3e50;">Room Type & Pricing</label><br>
+          <select id="room" required style="padding: 12px; border-radius: 8px; width: 100%; border: 1px solid #ccc; font-size: 1rem;">
+            <option value="">-- Select Room Type --</option>
+            <option value="Deluxe - $120/night">Deluxe - $120/night</option>
+            <option value="Executive - $180/night">Executive - $180/night</option>
+            <option value="Suite - $250/night">Suite - $250/night</option>
+          </select>
+        </div>
+
+        <div style="display: flex; gap: 15px;">
+          <div style="flex: 1;">
+            <label style="font-weight: 500; color: #2c3e50;">Check-in</label><br>
+            <input type="date" id="checkin" required style="padding: 10px; width: 100%; border-radius: 8px; border: 1px solid #ccc;">
+          </div>
+          <div style="flex: 1;">
+            <label style="font-weight: 500; color: #2c3e50;">Check-out</label><br>
+            <input type="date" id="checkout" required style="padding: 10px; width: 100%; border-radius: 8px; border: 1px solid #ccc;">
+          </div>
+        </div>
+
+        <button type="submit" style="padding: 14px; font-size: 1rem; background: #e67e22; color: white; border: none; border-radius: 8px; cursor: pointer; transition: background 0.3s;">
+          ✅ Book Now
+        </button>
+      </form>
+
+      <!-- Success Message -->
+      <div id="bookingSuccess" style="display: none; margin-top: 25px; padding: 15px; background: #dff0d8; color: #3c763d; border: 1px solid #d6e9c6; border-radius: 6px; font-size: 1rem; text-align: center;">
+        🎉 Your booking at Royal Orchid, Paris has been confirmed!
+      </div>
+
+    </div>
+  </section>
+
+  <!-- JavaScript -->
+  <script>
+    function bookHotel(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const phone = document.getElementById("phone").value;
+      const room = document.getElementById("room").value;
+      const checkin = document.getElementById("checkin").value;
+      const checkout = document.getElementById("checkout").value;
+
+      // You can use this info to send to backend
+      console.log(`Booking for ${name} (${email}, ${phone})`);
+      console.log(`Room: ${room}`);
+      console.log(`Check-in: ${checkin}, Check-out: ${checkout}`);
+
+      // Show success
+      document.getElementById("hotelForm").reset();
+      document.getElementById("bookingSuccess").style.display = "block";
+      return false;
+    }
+  </script>
+      <!-- 🔙 Quick Navigation Section -->
+<section style="background: #f8f9fa; padding: 40px 20px; text-align: center; font-family: 'Segoe UI', sans-serif;">
+  <h2 style="margin-bottom: 20px; color: #2c3e50;">🔗 Quick Links</h2>
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+    
+    <a href="index.html" style="background: #3498db; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🏠 Home
+    </a>
+
+    <a href="Destinations.html" style="background: #27ae60; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🗺️ Destinations
+    </a>
+
+    <a href="Packages.html" style="background: #e67e22; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🎁 Packages
+    </a>
+
+    <a href="Contact.html" style="background: #8e44ad; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      ✉️ Contact
+    </a>
+
+  </div>
+</section>
+
+
+  <footer style="text-align: center; padding: 20px; background: #2c3e50; color: white;">
+    © 2025 WanderGo Travel. All rights reserved.
+  </footer>
+
+
+</body>
+</html>

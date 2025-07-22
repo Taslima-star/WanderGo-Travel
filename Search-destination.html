@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WanderGo - Search & Book</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background: linear-gradient(to right, #64a7eb, #3479e1);">
+
+  <!-- 🔍 Search Destination & Book Section -->
+  <section style="padding: 70px 20px;">
+    <div style="max-width: 900px; margin: auto; background: #ffffff; border-radius: 16px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center;">
+      
+      <h2 style="font-size: 2.8rem; color: #2c3e50; margin-bottom: 10px; letter-spacing: 1px;">🔍 Find & Book Your Dream Destination</h2>
+      <p style="color: #666; font-size: 1.15rem; margin-bottom: 40px;">
+        Choose where you want to go — we’ll handle the rest!
+      </p>
+
+      <!-- Search Form -->
+      <form id="searchForm" onsubmit="return showBookingForm(event)" style="margin-bottom: 50px;">
+        <select id="destinationSelect" required style="padding: 14px; font-size: 1.05rem; border: 1px solid #ccc; border-radius: 8px; width: 60%; max-width: 400px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+          <option value="">-- Select Destination --</option>
+          <option value="Goa">🌴 Goa</option>
+          <option value="Maldives">🏝️ Maldives</option>
+          <option value="Kashmir">🏔️ Kashmir</option>
+          <option value="Dubai">🌆 Dubai</option>
+          <option value="Himachal">⛰️ Himachal</option>
+        </select>
+        <br>
+        <button type="submit" style="padding: 14px 28px; font-size: 1rem; background: #3498db; color: white; border: none; border-radius: 8px; cursor: pointer; transition: background 0.3s;">
+          🔎 Search
+        </button>
+      </form>
+
+      <!-- Booking Form (hidden initially) -->
+      <div id="bookingSection" style="display: none; background: #fefefe; padding: 30px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); text-align: left;">
+        <h3 id="bookTitle" style="color: #2c3e50; margin-bottom: 25px; font-size: 1.8rem;"></h3>
+
+        <form id="bookForm" onsubmit="return submitBooking(event)" style="display: flex; flex-direction: column; gap: 18px;">
+          <input type="text" placeholder="Your Full Name" required style="padding: 12px; font-size: 1rem; border: 1px solid #ccc; border-radius: 8px;">
+          <input type="email" placeholder="Your Email" required style="padding: 12px; font-size: 1rem; border: 1px solid #ccc; border-radius: 8px;">
+          <input type="tel" placeholder="Phone Number" required style="padding: 12px; font-size: 1rem; border: 1px solid #ccc; border-radius: 8px;">
+          <input type="date" required style="padding: 12px; font-size: 1rem; border: 1px solid #ccc; border-radius: 8px;">
+
+          <button type="submit" style="background: #e67e22; color: white; padding: 14px; font-size: 1rem; border: none; border-radius: 8px; cursor: pointer; transition: background 0.3s;">
+            ✅ Book Now
+          </button>
+        </form>
+
+        <!-- Success Message -->
+        <div id="bookingSuccess" style="display: none; margin-top: 25px; padding: 15px; background: #dff0d8; color: #3c763d; border: 1px solid #d6e9c6; border-radius: 6px; font-size: 1rem;">
+          🎉 Your booking has been submitted successfully!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🔧 JavaScript -->
+  <script>
+    function showBookingForm(event) {
+      event.preventDefault();
+      const selected = document.getElementById("destinationSelect").value;
+      if (selected === "") {
+        alert("Please select a destination.");
+        return false;
+      }
+
+      document.getElementById("bookTitle").textContent = `📍 Book your trip to ${selected}`;
+      document.getElementById("bookingSection").style.display = "block";
+      document.getElementById("bookingSuccess").style.display = "none";
+      return false;
+    }
+
+    function submitBooking(event) {
+      event.preventDefault();
+      document.getElementById("bookForm").reset();
+      document.getElementById("bookingSuccess").style.display = "block";
+      return false;
+    }
+  </script>
+    <!-- 🔙 Quick Navigation Section -->
+<section style="background: #f8f9fa; padding: 40px 20px; text-align: center; font-family: 'Segoe UI', sans-serif;">
+  <h2 style="margin-bottom: 20px; color: #2c3e50;">🔗 Quick Links</h2>
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+    
+    <a href="index.html" style="background: #3498db; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🏠 Home
+    </a>
+
+    <a href="Destinations.html" style="background: #27ae60; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🗺️ Destinations
+    </a>
+
+    <a href="Packages.html" style="background: #e67e22; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      🎁 Packages
+    </a>
+
+    <a href="Contact.html" style="background: #8e44ad; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+      ✉️ Contact
+    </a>
+
+  </div>
+</section>
+
+
+  <footer style="text-align: center; padding: 20px; background: #2c3e50; color: white;">
+    © 2025 WanderGo Travel. All rights reserved.
+  </footer>
+
+</body>
+</html>
